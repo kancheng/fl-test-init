@@ -9,6 +9,11 @@ Note: The scripts will be slow without the implementation of parallel computing.
 python>=3.6  
 pytorch>=0.4
 
+```
+torch 2.0.1
+Python 3.10.11
+```
+
 ## Run
 
 The MLP and CNN models are produced by:
