@@ -85,6 +85,13 @@ Build cuda_11.7.r11.7/compiler.31294372_0
     └── utils.py
 ```
 
+## Train & Test
+
+```
+python train.py --epochs 20
+python test.py
+```
+
 ## Reference
 
 - https://github.com/apolanco3225/Medical-MNIST-Classification
