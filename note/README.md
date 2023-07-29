@@ -169,5 +169,39 @@ conda install pytorch torchvision torchaudio pytorch-cuda=11.7 -c pytorch -c nvi
 python XXX.py build_ext --inplace
 ```
 
+## GZIP 压缩、解压: gzip
+
+压缩: gzip 只能压缩文件, 不能压缩文件夹, 压缩后默认在源文件名后面加上 .gz 的后缀作为文件名, 并覆盖源文件。
+
+解压: 解压 gzip 压缩包, 解压后默认去掉文件名后缀 .gz 作为解压后的文件名, 并覆盖源文件。
+
+格式: gzip [-options] file1 file2 ...
+
+参数:
+
+```
+    -d    解压
+    -r    压缩或解压指定目录下（包括子目录）的所有文件（逐个操作, 非打包压缩）
+```
+
+例子:
+
+```
+    压缩文件: gzip file1 file2                   // 结果: file1.gz, file2.gz
+    解压文件: gzip -d file1.gz file2.gz          // 结果: file1, file2
+    批量压缩: gzip -r aaDir  // 检索目录 aaDir 下的所有文件（忽略文件名后缀为 .gz 的文件）, 并逐个使用 gzip 压缩
+    批量解压: gzip -dr aaDir // 检索目录 aaDir 下的所有后缀名为 .gz 的文件（其他文件忽略）, 并使用 gzip 解压
+```
+
+gzip 只能压缩文件, 要把多个文件或文件夹压缩成一个文件, 必须先使用 tar 打包成一个文件后再使用 gzip 压缩, 一般直接使用 tar 命令一步完成打包和压缩:
+
+格式:
+
+```
+    tar -zcvf aa.tar.gz file1 file2 ...     // (压缩) 先打包, 再用 gzip 压缩
+    tar -zxvf aa.tar.gz                     // (解压) 先用 gzip 解压, 再解包
+```
+
+- https://blog.csdn.net/xietansheng/article/details/80044614
 
 
