@@ -395,7 +395,15 @@ freeview -v \
     bert/surf/rh.pial:edgecolor=red
 ```
 
+## Directory Structure
+
+```
+$ tree -f -L 3
+```
+
 ## 医学影像数据集集锦
 
 - https://github.com/kancheng/MedicalDatasetsList1
+
+
 
