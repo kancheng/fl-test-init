@@ -115,12 +115,25 @@ print(data)
 
 - https://stackoverflow.com/questions/24906126/how-to-unpack-pkl-file
 
-## 醫療影像工具
+## 醫療影像工具 MRI
 
 - MRIcroGL
 
+- FreeSurfer : https://surfer.nmr.mgh.harvard.edu/fswiki/rel7downloads
 
-##
+EX : 
+
+- https://github.com/kancheng/Brain-Segmentation/blob/main/Brain_Segmentation_using_QuickNAT.ipynb
+
+- https://github.com/kancheng/tutorials/blob/main/deep_atlas/deep_atlas_tutorial.ipynb
+
+- https://www.youtube.com/watch?v=gMuxB18Cr0o
+
+- https://zhuanlan.zhihu.com/p/626900516
+
+- https://zhuanlan.zhihu.com/p/356496420
+
+## conda 环境复制
 
 conda 本身的命令里是有移植这个选项的。假如前提是，在本地的 conda 里已经有一个 AAA 的环境，我想创建一个新环境跟它一模一样的叫 BBB：
 
@@ -314,4 +327,75 @@ sudo swapon /swapfile
 import torch
 torch.cuda.empty_cache()
 ```
+
+## ubuntu and freesurfer 安装手册
+
+1. 把freesurfer的安装包复制到 /usr/local;  在终端输入：cp  freesurfer所在位置  /usr/local or 直接裝 deb
+
+2. 进入 /usr/local，解压freesurfer文件，输入 sudo  tar -zxvf 文件名。
+
+3. 安装tcsh, 输入：sudo apt-get install tcsh;   完成后输入tcsh，不报错的话就没问题了。指令如下：
+
+```
+sudo apt-get install tcsh
+```
+
+4. 配置全局环境变量
+
+输入如下指令，打开 profile 文件：
+
+```
+sudo gedit  /etc/profile
+```
+
+在 profile 文件最后一行加入：
+
+```
+export FREESURFER_HOME=/usr/local/freesurfer
+```
+
+在 bash.bashrc 文件最后一行加入：
+
+```
+export FREESURFER_HOME=/usr/local/freesurfer
+source $FREESURFER_HOME/SetUpFreeSurfer.sh
+```
+
+6. 把注册时给的license文件复制到/usr/local/freesurfer里面
+
+- Page : https://surfer.nmr.mgh.harvard.edu/fswiki/License
+
+```
+sudo cp /home/liuzb/software/license.txt  /usr/local/freesurfer/
+```
+
+如果上述步骤都成功操作，你重新打开终端，就会出现如下环境变量提示：
+
+7. 分别输入帮助指令：tkregister2、tkmedit、tksurfer 和recon-all --help没有报错的话  就说明基本安装成功了。
+
+8. 输入如下指令（ Perform a full recon-all on a pre-existing subject folder），验证是否成功：
+
+```
+recon-all -s bert -autorecon1
+```
+
+9. 界面测试：View the output volumes, surfaces and subcortical segmentation of the fully recon-ed subject bert.
+
+```
+cd $SUBJECTS_DIR
+freeview -v \
+    bert/mri/T1.mgz \
+    bert/mri/wm.mgz \
+    bert/mri/brainmask.mgz \
+    bert/mri/aseg.mgz:colormap=lut:opacity=0.2 \
+    -f \
+    bert/surf/lh.white:edgecolor=blue \
+    bert/surf/lh.pial:edgecolor=red \
+    bert/surf/rh.white:edgecolor=blue \
+    bert/surf/rh.pial:edgecolor=red
+```
+
+## 医学影像数据集集锦
+
+- https://github.com/kancheng/MedicalDatasetsList1
 
