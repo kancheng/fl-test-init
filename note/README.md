@@ -204,4 +204,114 @@ gzip 只能压缩文件, 要把多个文件或文件夹压缩成一个文件, �
 
 - https://blog.csdn.net/xietansheng/article/details/80044614
 
+## pytorch 内存不够
+
+1. dataloader 内存不够
+
+在使用 PyTorch 的 dataloader 时，有时内存可能不够。这通常是因为整个数据集被加载到内存中，而不是在每次批次读取时逐步读取。
+
+解决这个问题的一种方法是使用 PyTorch 的 torch.utils.data.DataLoader 中的 num_workers 参数。这个参数可以指定加载数据的进程数，以减少内存占用。
+
+另一种解决方法是使用生成器，其中生成器在每次请求数据时生成数据，而不是一次性读取整个数据集。
+
+此外，您还可以使用 PyTorch 的torch.nn.DataParallel或torch.nn.DataParallel来分割数据并在多个 GPU 上进行并行加载。
+
+
+2. GPU 顯存不够
+
+torch.utils.checkpoint()，时间换空间，几行代码就可以解决。
+
+如 x = checkpoint.checkpoint(blk, x)
+
+- https://pytorch.org/docs/stable/checkpoint.html
+
+or
+
+torch.cuda.empty_cache()
+
+3. pytorch 模型提示超出内存cuda runtime error(2): out of memory
+
+看到这个提示，表示您的GPU内存不足。由于我们经常在PyTorch中处理大量数据，因此很小的错误可能会迅速导致程序耗尽所有GPU; 好的事，这些情况下的修复通常很简单。这里有几个常见检查事项包括：
+
+一、不要在循环训练中累积历史记录。
+默认情况下，涉及需要求导/梯度gradients变量的计算将保存在内存中。计算中避免使用这些变量，例如在跟踪统计数据时，这些变量在循环训练中将超出你内存。相反，您应该分离变量或访问其基础数据。
+
+有时，当可微分变量可能发生时，它可能并不明显。考虑以下循环训练（从源代码删减）：
+
+```
+total_loss = 0
+for i in range(10000):
+    optimizer.zero_grad()
+    output = model(input)
+    loss = criterion(output)
+    loss.backward()
+    optimizer.step()
+    total_loss += loss
+```
+
+在这里，total_loss你的循环训练中积累了历史，因为它loss是一个具有autograd历史的可微变量。你可以通过编写total_loss += float(loss)来解决这个问题。
+
+这个问题的其他例子： 1。
+
+二、释放你不需要的张量和变量。
+如果将一个张量或变量分配给本地，Python将不会释放，直到本地超出范围。你可以通过使用del x这样的代码释放。同样，如果将一个张量或变量赋值给对象的成员变量，它将不会释放，直到该对象超出范围。如果你释放了你不需要的变量，内存收益率会提升很多。范围可能比你想象的要大。例如：
+
+```
+for i in range(5):
+    intermediate = f(input[i])
+    result += g(intermediate)
+output = h(result)
+return output
+```
+
+在这里，intermediate 即使在h执行时依然存在，因为它在循环结束后没有释放。你使用完它以后应该使用del intermediate释放它。
+
+三、不要在太大的序列上运行RNN。
+通过RNN反向传播所需的内存量与RNN的长度成线性关系; 因此，如果尝试向RNN提供一个时间太长的序列，则会耗尽内存。
+
+这个现象的技术术语是基于时间的反向传播，关于如何实现截断的BPTT有很多参考资料，包括单词language model example; 截断由本论坛帖子中repackage描述的函数处理 。
+
+四、不要使用太大的线性图层。
+线性图层 nn.Linear(m, n)使用O(nm)内存：也就是说，权重的内存需求与特征的数量成正比。通过这种方式来超出你的内存是非常容易的（并且记住你至少需要两倍的权重，因为你还需要存储梯度。）
+
+- https://ptorch.com/news/160.html
+
+## SWAP 虛擬內存
+
+Check
+
+```
+free -m
+```
+
+設立
+
+```
+$ sudo fallocate -l 32G /swapfile
+$ sudo mkswap /swapfile
+$ sudo swapon /swapfile
+```
+
+linux 下修改 swap 分区遇到文件忙如何解决？
+
+```
+sudo swapoff /swapfile 
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+
+```
+
+- https://tecadmin.net/how-to-add-swap-memory-on-ubuntu-20-04/
+
+- https://blog.csdn.net/u011046042/article/details/127644869
+
+- https://phoenixnap.com/kb/linux-commands-check-memory-usage
+
+## Pytorch CUDA 顯存不足
+
+```
+import torch
+torch.cuda.empty_cache()
+```
 
