@@ -401,6 +401,12 @@ freeview -v \
 $ tree -f -L 3
 ```
 
+## 數據下載續傳
+
+```
+curl -C -  "https://XXX/XXX.tar.gz" --output XXX.tar.gz
+```
+
 ## 医学影像数据集集锦
 
 - https://github.com/kancheng/MedicalDatasetsList1
