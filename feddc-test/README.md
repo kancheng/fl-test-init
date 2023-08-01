@@ -9,11 +9,25 @@ We provide code to run FedDC, FedAvg,
 ## Kan Note
 
 ```
-python example_code_minist.py > example_code_minist_log.txt
+conda install pytorch torchvision torchaudio pytorch-cuda=11.7 -c pytorch -c nvidia
+```
+
+```
+python example_code_mnist.py
+
+python example_code_cifar10.py
+
+python example_code_cifar100.py
+
+python example_code_synthetic.py
+
+python example_code_mnist.py > example_code_minist_log.txt
 
 python example_code_cifar10.py > example_code_cifar10_log.txt
 
 python example_code_cifar100.py > example_code_cifar100_log.txt
+
+python example_code_synthetic.py > example_code_synthetic_log.txt
 ```
 
 ## Prerequisite
