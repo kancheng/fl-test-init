@@ -35,6 +35,15 @@ jupyter notebook
 
 - https://zhuanlan.zhihu.com/p/97488817
 
-- https://link.zhihu.com/?target=https%3A//github.com/Qiuyan918/Unet_Implementation_PyTorch/blob/master/Unet_Implementation_PyTorch.ipynb
+- https://github.com/Qiuyan918/Unet_Implementation_PyTorch/blob/master/Unet_Implementation_PyTorch.ipynb
+
+- https://github.com/kancheng/unet
+
+- https://github.com/kancheng/Pytorch-UNet/tree/master
+
+- https://zhuanlan.zhihu.com/p/157134695
+
+- https://github.com/kancheng/Semantic-Segmentation-UNet-Federated
+
 
 
