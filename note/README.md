@@ -411,5 +411,8 @@ curl -C -  "https://XXX/XXX.tar.gz" --output XXX.tar.gz
 
 - https://github.com/kancheng/MedicalDatasetsList1
 
+- Intel & MobileODT Cervical Cancer Screening : https://www.kaggle.com/competitions/intel-mobileodt-cervical-cancer-screening/
 
+- Early Biomarkers of Parkinson's Disease : https://www.kaggle.com/datasets/ruslankl/early-biomarkers-of-parkinsons-disease
 
+- Parkinson's Disease (PD) classification : https://www.kaggle.com/code/sabbirahmedshawon/parkinson-disease-pattern-recognition-project
